@@ -14,21 +14,22 @@ public class Persona {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer personaId;
 	
-	@Column
+	@Column(name = "nombre", nullable = false)
 	private String nombre;
 	
-	@Column
+	@Column (name = "apePaterno", nullable = false)
 	private String apePaterno;
 	
-	@Column String apeMaterno;
+	@Column (name = "apeMaterno", nullable = false)
+	private String apeMaterno;
 	
-	@Column
+	@Column(name = "sexo", nullable = false)
 	private String sexo;
 	
-	@Column 
+	@Column(name = "fecha", nullable = true)
 	private Date fecha;
 	
-	@Column 
+	@Column(name = "curp", nullable = true) 
 	private String curp;
 
 	public Integer getPersonaId() {
