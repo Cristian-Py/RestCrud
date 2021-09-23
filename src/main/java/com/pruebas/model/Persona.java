@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -34,6 +35,7 @@ public class Persona {
 	@Column(name = "curp", nullable = false)
 	private String curp;
 	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName = "personaId")
 	
 
 	public Integer getPersonaId() {

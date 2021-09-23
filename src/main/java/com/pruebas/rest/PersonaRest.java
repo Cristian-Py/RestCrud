@@ -19,9 +19,12 @@ import com.pruebas.dao.UbicacionDao;
 import com.pruebas.model.OrderRequest;
 import com.pruebas.model.Persona;
 
+import ch.qos.logback.classic.Logger;
+
 @RestController
 @RequestMapping("persona")
 public class PersonaRest {
+		
 	
 	@Autowired
 	private PersonaDao personaDao;
@@ -36,9 +39,13 @@ public class PersonaRest {
 	private UbicacionDao ubicacionDao;
 	
 	
-	@PostMapping("/personasGuardar")
-	public Persona placeOrder(@RequestBody OrderRequest request) {
-		return personaDao.save(request.getPersona());
+	@PostMapping("/guardarPersona")
+	public OrderRequest placeOrder(@RequestBody OrderRequest request) {
+		personaDao.save(request.getPersona());
+		historialDao.save(request.getHistorial());
+		contactoDao.save(request.getContacto());
+		ubicacionDao.save(request.getUbicacion());
+		return request;
 	}
 	
 	@PostMapping("/guardar")
