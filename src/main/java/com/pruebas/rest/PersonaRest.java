@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pruebas.dao.ContactoDao;
+import com.pruebas.dao.HistorialDao;
 import com.pruebas.dao.PersonaDao;
+import com.pruebas.dao.UbicacionDao;
+import com.pruebas.model.OrderRequest;
 import com.pruebas.model.Persona;
 
 @RestController
@@ -21,6 +25,21 @@ public class PersonaRest {
 	
 	@Autowired
 	private PersonaDao personaDao;
+	
+	@Autowired
+	private HistorialDao historialDao;
+	
+	@Autowired 
+	private ContactoDao contactoDao;
+	
+	@Autowired 
+	private UbicacionDao ubicacionDao;
+	
+	
+	@PostMapping("/personasGuardar")
+	public Persona placeOrder(@RequestBody OrderRequest request) {
+		return personaDao.save(request.getPersona());
+	}
 	
 	@PostMapping("/guardar")
 	public void guardar(@RequestBody Persona persona) {
@@ -39,6 +58,7 @@ public class PersonaRest {
 	public void actualizar(@RequestBody Persona persona) {
 		personaDao.save(persona);
 	}
+	
 	
 	
 }

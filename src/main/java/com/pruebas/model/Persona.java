@@ -2,35 +2,39 @@ package com.pruebas.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-@Entity 
+@Entity
 public class Persona {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer personaId;
-	
+
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
-	
-	@Column (name = "apePaterno", nullable = false)
+
+	@Column(name = "apePaterno", nullable = false)
 	private String apePaterno;
-	
-	@Column (name = "apeMaterno", nullable = false)
+
+	@Column(name = "apeMaterno", nullable = false)
 	private String apeMaterno;
-	
+
 	@Column(name = "sexo", nullable = false)
 	private String sexo;
-	
-	@Column(name = "fecha", nullable = true)
+
+	@Column(name = "fecha", nullable = false)
 	private Date fecha;
-	
-	@Column(name = "curp", nullable = true) 
+
+	@Column(name = "curp", nullable = false)
 	private String curp;
+	@OneToMany(cascade = CascadeType.ALL)
+	
 
 	public Integer getPersonaId() {
 		return personaId;
@@ -87,5 +91,12 @@ public class Persona {
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+
+	@Override
+	public String toString() {
+		return "Persona [personaId=" + personaId + ", nombre=" + nombre + ", apePaterno=" + apePaterno + ", apeMaterno="
+				+ apeMaterno + ", sexo=" + sexo + ", fecha=" + fecha + ", curp=" + curp + "]";
+	}
 	
+
 }
