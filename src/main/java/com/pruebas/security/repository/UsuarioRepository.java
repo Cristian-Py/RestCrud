@@ -11,6 +11,6 @@ import com.pruebas.security.entity.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	Optional<Usuario> findByNombreUsuario(String nombreUsuario);
 	boolean existsByNombreUsuario(String nombreUsuario);
-	boolean existByEmail(String email);
+	boolean existsByEmail(String email);
 
 }
