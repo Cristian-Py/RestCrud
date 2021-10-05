@@ -14,11 +14,15 @@ import com.pruebas.security.repository.RolRepository;
 @Service
 @Transactional
 public class RolService {
-	
+
 	@Autowired
 	RolRepository rolRepository;
-	
-	public Optional<Rol> getByRolNombre(RolNombre rolNombre){
+
+	public Optional<Rol> getByRolNombre(RolNombre rolNombre) {
 		return rolRepository.findByRolNombre(rolNombre);
+	}
+
+	public void save(Rol rol) {
+		rolRepository.save(rol);
 	}
 }

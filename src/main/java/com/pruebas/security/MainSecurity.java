@@ -25,6 +25,7 @@ import com.pruebas.security.service.UserDetailsImpl;
 public class MainSecurity extends WebSecurityConfigurerAdapter{
 	@Autowired
 	UserDetailsImpl userDetailsService;
+	
 	@Autowired
 	JwtEntryPoint jwtEntryPoint;
 	
