@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
+import com.pruebas.security.dto.JwtDto;
 import com.pruebas.security.dto.LoginUsuario;
 import com.pruebas.security.dto.Mensaje;
 import com.pruebas.security.dto.NuevoUsuario;
@@ -50,7 +52,7 @@ public class AuthController {
 	
 	@Autowired
 	JwtProvider jwtProvider;
-	@PostMapping
+	@PostMapping("/nuevo")
 	public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
 		if(bindingResult.hasErrors())
 			return new ResponseEntity(new Mensaje("Campos mal puestos"), HttpStatus.BAD_REQUEST);
@@ -70,17 +72,16 @@ public class AuthController {
 		return new ResponseEntity(new Mensaje("Usuario guardado"), HttpStatus.CREATED);
 		
 	}
-	@PostMapping
-	public ResponseEntity(JwtDto) login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
-		if(bindingResult.hasErrors())
-			return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario()
-				,loginUsuario.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = JwtProvider.generatedToken(authentication);
-		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		
-		
-		
-	}
+	  @PostMapping("/login")
+	    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
+	        Authentication authentication =
+	                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        String jwt = jwtProvider.generateToken(authentication);
+	        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+	        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+	        return new ResponseEntity(jwtDto, HttpStatus.OK);
+	    }
 }
